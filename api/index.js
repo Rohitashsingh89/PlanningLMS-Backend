@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 
 import databaseConnection from '../config/databaseConnection.js';
 import router from '../routes/route.js';
+import problemRouter from '../routes/problem.js';
 
 dotenv.config(); // Load .env variables early
 
@@ -28,6 +29,8 @@ app.get("/", (req, res) => {
 
 // API routes
 app.use("/api", router);
+
+app.use('/api/problems', problemRouter);
 
 // Start server
 app.listen(PORT, () => {
