@@ -6,6 +6,8 @@ import cookieParser from 'cookie-parser';
 import databaseConnection from '../config/databaseConnection.js';
 import router from '../routes/route.js';
 import problemRouter from '../routes/problem.js';
+import groupRoutes from '../routes/groupRoutes.js';
+import expenseRoutes from '../routes/expenseRoutes.js';
 
 dotenv.config(); // Load .env variables early
 
@@ -28,9 +30,12 @@ app.get("/", (req, res) => {
 });
 
 // API routes
-app.use("/api", router);
+app.use("/api/v1", router);
 
-app.use('/api/problems', problemRouter);
+app.use('/api/v1/problems', problemRouter);
+
+app.use('/api/v1/groups', groupRoutes);
+app.use('/api/v1/expenses', expenseRoutes);
 
 // Start server
 app.listen(PORT, () => {
