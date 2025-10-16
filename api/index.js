@@ -1,23 +1,30 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import cookieParser from 'cookie-parser';
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 
-import databaseConnection from '../config/databaseConnection.js';
-import router from '../routes/route.js';
-import problemRouter from '../routes/problem.js';
-import groupRoutes from '../routes/groupRoutes.js';
-import expenseRoutes from '../routes/expenseRoutes.js';
+import databaseConnection from "../config/databaseConnection.js";
+import router from "../routes/route.js";
+import authRoutes from "../routes/authRoutes.js";
+import problemRouter from "../routes/problem.js";
+import groupRoutes from "../routes/groupRoutes.js";
+import expenseRoutes from "../routes/expenseRoutes.js";
 
 dotenv.config(); // Load .env variables early
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const DATABASE_URL = process.env.DATABASE_URL;
-const DATABASE_NAME = process.env.DATABASE_NAME || 'test'; // Default if missing
+const DATABASE_NAME = process.env.DATABASE_NAME || "test"; // Default if missing
 
 // Middlewares
-app.use(cors());
+// app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 
@@ -26,18 +33,20 @@ databaseConnection(DATABASE_URL, DATABASE_NAME);
 
 // Test route
 app.get("/", (req, res) => {
-    res.send("Server is running perfectly");
+  res.send("Server is running perfectly");
 });
 
 // API routes
 app.use("/api/v1", router);
+app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/problems", problemRouter);
 
-app.use('/api/v1/problems', problemRouter);
+app.use("/api/v1/groups", groupRoutes);
+app.use("/api/v1/expenses", expenseRoutes);
 
-app.use('/api/v1/groups', groupRoutes);
-app.use('/api/v1/expenses', expenseRoutes);
+app.get("/health", (_req, res) => res.json({ ok: true }));
 
 // Start server
 app.listen(PORT, () => {
-    console.log(`✅ Server Listening at http://localhost:${PORT}`);
+  console.log(`✅ Server Listening at http://localhost:${PORT}`);
 });
