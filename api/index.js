@@ -18,13 +18,17 @@ const DATABASE_URL = process.env.DATABASE_URL;
 const DATABASE_NAME = process.env.DATABASE_NAME || "test"; // Default if missing
 
 // Middlewares
-app.use(cors());
-// app.use(
-//   cors({
-//     origin: "http://localhost:3000",
-//     credentials: true,
-//   })
-// );
+// app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "https://codechisel-official.vercel.app",
+      "http://localhost:3000",
+    ],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 app.use(cookieParser());
 
