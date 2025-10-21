@@ -32,7 +32,7 @@ const DATABASE_NAME = process.env.DATABASE_NAME || "test"; // Default if missing
 // app.use(cors());
 app.use(
   cors({
-    origin: ["https://codechisel-official.vercel.app", "http://localhost:3000", "https://diwali-crazy.netlify.app", "http://localhost:5173"],
+    origin: ["https://codechisel-official.vercel.app", "http://localhost:3000", "https://crazy-wishes.netlify.app", "http://localhost:5173"],
     credentials: true,
   })
 );
